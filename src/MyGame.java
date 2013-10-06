@@ -210,6 +210,7 @@ class ConsLoBlock implements ILoBlock {
         this.rest = rest;
         this.speed = speed;
     }
+    //constructor which will be used when speed isnt changed
     ConsLoBlock(Block first, ILoBlock rest) {
     	//default speed is 15
     	this(first, rest, 15);

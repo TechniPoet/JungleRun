@@ -1,0 +1,12 @@
+JungleRun
+
+Welcome to Jungle Run
+Are you ready to run and avoid seemingly blocky objects?
+well than this is the game for you
+
+At any time the game can be ended by pressing the "x" key
+While your monkey (the red circle on your screen) is running he can't stop.
+Move up and down using the "up" and "down" directional keys
+avoid the blue rectangles or your game is over!
+
+Have fun!
