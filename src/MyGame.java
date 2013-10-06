@@ -177,7 +177,7 @@ interface ILoBlock {
     boolean hasCollided(CartPt that) ;
 }
 
-//
+//represents empty list of blocks
 class MtBlock implements ILoBlock {
     MtBlock(){}
 //generate a new block in the list with n as y value
@@ -203,10 +203,16 @@ class MtBlock implements ILoBlock {
 class ConsLoBlock implements ILoBlock {
     Block first;
     ILoBlock rest;
+    int speed;
   
-    ConsLoBlock(Block first, ILoBlock rest) {
+    ConsLoBlock(Block first, ILoBlock rest, int speed) {
         this.first = first;
         this.rest = rest;
+        this.speed = speed;
+    }
+    ConsLoBlock(Block first, ILoBlock rest) {
+    	//default speed is 15
+    	this(first, rest, 15);
     }
 //generates a new block in the list with n as y value
     public ILoBlock spawnBlock(int n) {
@@ -222,7 +228,7 @@ class ConsLoBlock implements ILoBlock {
     	}
     	else {
     		//if its not off screen than move it left
-    		return new ConsLoBlock(new Block(this.first.center.left(15),
+    		return new ConsLoBlock(new Block(this.first.center.left(this.speed),
     				this.first.height, this.first.width, this.first.color),
                     this.rest.moveBlocks());
     	}
@@ -260,12 +266,17 @@ class JungleWorld extends World {
         return new OverlayImages(this.monkey.monkeyImage(),
         		this.blocks.drawBlocks());
     }
-    
+    /** updates key event for moving monkey **/
     public World onKeyEvent(String ke) {
+    	if (ke.equals("x")) {
+    		this.endOfWorld("Game Ended");
+    	}
         return new JungleWorld(this.time, this.monkey.moveMonkey(ke),
         		this.blocks);
     }
-    
+    /** runs every time the clock moves up
+     * moving blocks and spawning new blocks
+     */
     public World onTick() {
         if (this.time % 15 == 0) {
             return new JungleWorld(1 + this.time, this.monkey,
