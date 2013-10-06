@@ -1,6 +1,12 @@
 // CS 2510 Fall 2013
 // Assignment 3
-
+/*
+ * assignment 3
+ * Robbins Jeffrey
+ * Robbinsj
+ * Guo jinhua
+ * guoj
+ */
 import tester.*;
 
 // to represent a list of Strings
