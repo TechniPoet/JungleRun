@@ -1,0 +1,16 @@
+assignment 3
+Robbins Jeffrey
+Robbinsj
+Guo jinhua
+guoj
+
+Tuesday Oct 1st 12-1:30
+Planning session
+drew up diagrams and psuedocode
+
+Wednesday Oct 2nd 11:30 -4:30
+coded majority of project
+got visuals working and movement
+
+Sunday Oct 6th 2-4
+debugged and got collision working 

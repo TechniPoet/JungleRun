@@ -1,3 +1,11 @@
+/*
+ * assignment 3
+ * Robbins Jeffrey
+ * Robbinsj
+ * Guo jinhua
+ * guoj
+ */
+
 import java.awt.Color;
 import java.util.Random;
 
