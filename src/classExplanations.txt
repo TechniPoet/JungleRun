@@ -1,0 +1,36 @@
+This document will describe the responsibilities of each class in JungleRun
+
+-CartPt
+The role of this class to act as a helper for movement of points.
+Instead of using Posn, CartPt extends Posn and has helper methods such
+as up, down, left, and right that all take in an integer as input
+so that we could right this.center.up(5) instead of new Posn(this.center.x, this.center.y - 5)
+every time we wanted to move a point.
+
+-JungleWorld
+JungleWorld extends World. it runs and encapsulates all the essentials to the actual running of the game.
+onTick() is run every frame and moves/spawns the blocks.
+this class is also constantly checking for the "x" input or for monkeyCollide() to return true in order to end the game.
+this class is in charge of drawing all images as well as generating random numbers.
+
+-Monkey
+Monkey is responsible for its location, size, and its movement (along with restricting movement).
+the instance of monkey is representative of the player.
+
+-ILoBlock
+ILoBlock is an interface class that is implemented by MtLoBlock and ConsLoBlock
+
+-MtLoBlock
+This class is responsible for telling Jungle world that there are no collisions and
+that there are no blocks inside of it.
+
+-ConsLoBlock
+The responsibility of this class to to tell JungleWorld whether any of the blocks inside of it
+are colliding with points given to it by JungleWorld. this class is essentially a communicator
+between jungle world and all of the Block class instances. It creates new Blocks for JungleWorld
+as well as destroys them when they are out of frame. It will destroy all blocks every tick and create new
+ones to simulate movement.
+
+-Block
+The responsibility of Block is to know its location, size, and color so that it can be drawn and manipulated.
+The Block will also tell you if a given point is touching it or if the Block is off of the viewable screen.
