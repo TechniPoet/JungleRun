@@ -12,10 +12,16 @@ JungleWorld extends World. it runs and encapsulates all the essentials to the ac
 onTick() is run every frame and moves/spawns the blocks.
 this class is also constantly checking for the "x" input or for monkeyCollide() to return true in order to end the game.
 this class is in charge of drawing all images as well as generating random numbers.
+makeImage() draws all the images of the monkey and ILoBlock
+onKeyEvent(String ke) sends the key event to monkey
+monkeyCollide() sends all four coordinates to ILoBlocks hasCollided() function
+worldEnds() ends the world
 
 -Monkey
 Monkey is responsible for its location, size, and its movement (along with restricting movement).
 the instance of monkey is representative of the player.
+monkeyImage() draws monkey image
+moveMonkey(String ke) moves monkey from key event
 
 -ILoBlock
 ILoBlock is an interface class that is implemented by MtLoBlock and ConsLoBlock
@@ -30,7 +36,16 @@ are colliding with points given to it by JungleWorld. this class is essentially 
 between jungle world and all of the Block class instances. It creates new Blocks for JungleWorld
 as well as destroys them when they are out of frame. It will destroy all blocks every tick and create new
 ones to simulate movement.
+spawnBlock(int n) creates a new block instance in the list: n is the y coordinate
+moveBlocks() recreates each block in the list to simulate movement also leaves blocks out of the list
+if they are off screen
+drawBlocks() overlays all block images into one image
+hasCollided(CartPt that) takes coordinate and returns if the point is touching any blocks
+
 
 -Block
 The responsibility of Block is to know its location, size, and color so that it can be drawn and manipulated.
 The Block will also tell you if a given point is touching it or if the Block is off of the viewable screen.
+blockImage() draws the image of the block
+isTouching(CartPt that) returns if the given point is within the block bounds
+offScreen() returns if the block is off the viewable screen

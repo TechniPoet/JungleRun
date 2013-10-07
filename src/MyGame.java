@@ -63,7 +63,6 @@ class Monkey {
     
     /** moves monkey using key events**/
     Monkey moveMonkey(String ke) {
-    	
         if (ke.equals("up")) {
         	if (this.topBoundries()) {
         		return new Monkey(this.center.up(this.speed), this.radius,
@@ -90,7 +89,7 @@ class Monkey {
             				new CartPt(this.center.x, 300 - this.radius),
             				this.radius, this.speed, this.color);
             	}
-        }
+            }
             else {
                 return this;
             }
@@ -100,7 +99,7 @@ class Monkey {
     /** checks if monkey is at top boundry 
      * returns true if monkey is within bounds**/
     boolean topBoundries() {
-    	if (this.center.y - this.radius <= 0){
+    	if (this.center.y - this.radius <= 0) {
     		return false;
     	}
     	else {
@@ -110,7 +109,7 @@ class Monkey {
     /** checks if monkey is at bottom boundry
      * returns true if monkey is within bounds **/
     boolean bottomBoundries() {
-    	if (this.center.y + this.radius >= 300){
+    	if (this.center.y + this.radius >= 300) {
     		return false;
     	}
     	else {
@@ -179,7 +178,9 @@ interface ILoBlock {
 
 //represents empty list of blocks
 class MtBlock implements ILoBlock {
-    MtBlock(){}
+    MtBlock() {
+    	//MtBlock contains no fields
+    }
 //generate a new block in the list with n as y value
     public ILoBlock spawnBlock(int n) {
         return new ConsLoBlock(
@@ -229,8 +230,8 @@ class ConsLoBlock implements ILoBlock {
     	}
     	else {
     		//if its not off screen than move it left
-    		return new ConsLoBlock(new Block(this.first.center.left(this.speed),
-    				this.first.height, this.first.width, this.first.color),
+    		return new ConsLoBlock(new Block(this.first.center.left(this.speed)
+    				, this.first.height, this.first.width, this.first.color),
                     this.rest.moveBlocks());
     	}
         
@@ -270,7 +271,7 @@ class JungleWorld extends World {
     /** updates key event for moving monkey **/
     public World onKeyEvent(String ke) {
     	if (ke.equals("x")) {
-    		this.endOfWorld("Game Ended");
+    		return this.endOfWorld("Game Ended");
     	}
         return new JungleWorld(this.time, this.monkey.moveMonkey(ke),
         		this.blocks);
@@ -312,7 +313,7 @@ class JungleWorld extends World {
      * to the background image
      */
     public WorldImage lastImage(String s) {
-      return new OverlayImages(this.makeImage(),
+    	return new OverlayImages(this.makeImage(),
           new TextImage(new Posn(this.height / 2, this.width / 2), s, 
               Color.red));
     }
@@ -330,23 +331,192 @@ class JungleWorld extends World {
 }
 
 class ExamplesJungleWorld {
-    Monkey monkey1 = new Monkey(new CartPt(100, 100), 30, 10, new Red());
+    Monkey monkey = new Monkey(new CartPt(100, 100), 30, 10, new Red());
+    Monkey mTopOut = new Monkey(new CartPt(100, -100), 30, 10, new Red());
+    Monkey mBotOut = new Monkey(new CartPt(100, 1000), 30, 10, new Red());
+    Monkey monkey1 = new Monkey(new CartPt(100, 90), 30, 10, new Red());
+    Monkey monkey2 = new Monkey(new CartPt(100, 110), 30, 10, new Red());
+    Monkey mTopRim = new Monkey(new CartPt(100, 30), 30, 10, new Red());
+    Monkey mBotRim = new Monkey(new CartPt(100, 270), 30, 10, new Red());
+    
+    
+    
     
     Block block1 = new Block(new CartPt(150, 75), 150, 50, new Green());
     Block block2 = new Block(new CartPt(250, 225), 150, 50, new Green());
     Block block3 = new Block(new CartPt(350, 75), 150, 50, new Green());
+    Block block4 = new Block(new CartPt(135, 75), 150, 50, new Green());
+    Block block5 = new Block(new CartPt(235, 225), 150, 50, new Green());
+    Block block6 = new Block(new CartPt(335, 75), 150, 50, new Green());
+    Block block7 = new Block(new CartPt(220, 225), 150, 50, new Green());
+    Block bLeftOut = new Block(new CartPt(-100, 75), 150, 50, new Green());
+    
+    
     
     MtBlock empty = new MtBlock();
     
     ConsLoBlock blocks1 = new ConsLoBlock(this.block1, 
-            new ConsLoBlock(this.block2,
+            new ConsLoBlock(this.block2, 
             		new ConsLoBlock(this.block3, this.empty)));
-    
+    ConsLoBlock blocks2 = new ConsLoBlock(this.block3, this.empty);
+    ConsLoBlock blocks3 = new ConsLoBlock(this.block4, 
+            new ConsLoBlock(this.block5, 
+            		new ConsLoBlock(this.block6, this.empty)));
+    ConsLoBlock blocks4 = new ConsLoBlock(this.block5, 
+    		new ConsLoBlock(this.bLeftOut, this.empty));
+   
 
-    JungleWorld world = new JungleWorld(0, this.monkey1, this.empty);
+    
+    JungleWorld world = new JungleWorld(1, this.monkey, this.empty);
+    JungleWorld world1 = new JungleWorld(1, this.monkey, this.blocks1);
+    JungleWorld world2 = new JungleWorld(2, this.monkey, this.blocks3);
+    JungleWorld world3 = new JungleWorld(15, this.monkey, this.empty);
+    JungleWorld world4 = new JungleWorld(16, this.monkey, this.blocks2);
     
     
-     
+    /** tests creation of monkey image */
+    boolean testMonkeyImage(Tester t) {
+        return
+                t.checkExpect(this.monkey.monkeyImage(),
+                		new DiskImage(new CartPt(100, 100),
+                				30, new Red()) );
+    }
+    /** tests topBoundries function of monkey class */
+    boolean testTopBoundries(Tester t) {
+    	return 
+    			t.checkExpect(this.monkey.topBoundries(), true) &&
+    			t.checkExpect(this.mTopOut.topBoundries(), false);
+    			
+    }
+    /** tests bottomBoundries function of monkey class */
+    boolean testBottomBoundries(Tester t) {
+    	return 
+    			t.checkExpect(this.monkey.bottomBoundries(), true) &&
+    			t.checkExpect(this.mBotOut.bottomBoundries(), false);
+    			
+    }
     
-    boolean runAnimation = this.world.bigBang(500, 300, .1);
+    /** test moveMonkey in monkey class **/
+    boolean testMoveMonkey(Tester t) {
+        return
+                t.checkExpect(this.monkey.moveMonkey("up"), this.monkey1) &&
+                t.checkExpect(this.monkey.moveMonkey("down"), this.monkey2) &&
+                t.checkExpect(this.mTopRim.moveMonkey("up"), this.mTopRim) &&
+                t.checkExpect(this.mBotRim.moveMonkey("down"), this.mBotRim);
+    }
+    
+    /** tests block image of block class */
+    boolean testBlockImage(Tester t) {
+        return
+                t.checkExpect(this.block1.blockImage(),
+                		new RectangleImage(new CartPt(150, 75),
+                				50, 150, new Green()) );
+    }
+    
+    /** tests isTouching function of block */
+    boolean testIsTouching(Tester t) {
+        return
+                t.checkExpect(this.block1.isTouching(new CartPt(160, 85)),
+                		true) &&
+                t.checkExpect(this.block1.isTouching(new CartPt(250, 300)),
+                		false);
+                		
+    }
+    
+    /** tests topBoundries function of IloBlock */
+    boolean testHasCollided(Tester t) {
+        return
+                t.checkExpect(this.blocks1.hasCollided(new CartPt(260, 235)), true) &&
+                t.checkExpect(this.blocks1.hasCollided(new CartPt(290, 300)), false);
+            		
+    }
+    
+    /** tests spawnBlock() function of ILoBlock */
+    boolean testSpawnBlock(Tester t) {
+        return
+                t.checkExpect(this.blocks2.spawnBlock(30),
+                		new ConsLoBlock(
+                				new Block( new CartPt( 500, 30), 150, 50, new Blue()), 
+                				new ConsLoBlock( 
+                						new Block(new CartPt(335, 75),
+                								150, 50, new Green()),this.empty)));
+    }
+    
+    /** tests moveBlock function of ILoBlock */
+    boolean testMoveBlock(Tester t) {
+        return
+                t.checkExpect(this.blocks1.moveBlocks(), this.blocks3);
+    }
+    
+    /** tests drawBlocks() function of ILoBlock */
+    boolean testDrawBlock(Tester t) {
+        return
+                t.checkExpect(this.blocks4.drawBlocks(),
+                		new OverlayImages(new RectangleImage(new CartPt(235, 225), 
+                				50, 150, new Green()), 
+                				new OverlayImages(new RectangleImage(new CartPt(-100, 75), 
+                						50, 150, new Green()), 
+                						new DiskImage(new CartPt(1000, 1000), 1,
+                								new Red()))));
+    }
+    
+    /** tests if blocks are destroyed in moveBlocks() function of ILoBlock */
+	boolean testRemove(Tester t) {
+	        return
+	                t.checkExpect(this.blocks4.moveBlocks(), 
+	                		new ConsLoBlock(this.block7, this.empty));
+	}
+
+
+
+	/** test onKeyEvent in world class **/  
+	boolean testOnKeyEvent(Tester t) {
+        return
+                t.checkExpect(this.world.onKeyEvent("up"), 
+                		new JungleWorld(this.world.time, this.monkey1, this.world.blocks)) &&
+                t.checkExpect(this.world.onKeyEvent("down"), 
+                        new JungleWorld(this.world.time, this.monkey2, this.world.blocks)) &&
+                t.checkExpect(this.world.onKeyEvent("left"),
+                		new JungleWorld(this.world.time, this.monkey, this.world.blocks)) &&
+                t.checkExpect(this.world.onKeyEvent("right"),
+                		new JungleWorld(this.world.time, this.monkey, this.world.blocks));
+                
+	}
+	
+	/** tests randomInt function of JungleWorld */
+	boolean testRandom(Tester t) {
+		return
+				t.checkRange(this.world1.randomInt(15), 0, 14);
+	}
+	
+	/** tests onTick() function of JungleWorld */
+	boolean testOnTick(Tester t) {
+        return
+                t.checkExpect(this.world1.onTick(), this.world2);
+	}
+	
+	/** tests monkeyCollide function of JungleWorld */
+	boolean testMonkeyCollide(Tester t) {
+        return
+                t.checkExpect(this.world4.monkeyCollide(), false) &&
+                t.checkExpect(this.world2.monkeyCollide(), true);
+          
+	}
+
+	/** tests worldEnd() function JungleWorld */
+	boolean testWorldEnd(Tester t) {
+        return
+                t.checkExpect(this.world4.worldEnds(), 
+                		new WorldEnd(false, this.world4.makeImage())) &&
+                t.checkExpect(this.world2.worldEnds(), 
+                		new WorldEnd (true, 
+                				this.world2.lastImage(
+                						"MONKEY DIED!!! WHY YOU DIE MONKEY?!"))
+                ) && t.checkExpect(this.world2.onKeyEvent("x"),
+                		this.world2.endOfWorld("Game Ended"));
+	}
+	
+	//boolean runAnimation = this.world.bigBang(500, 300, .1);
+
+    
 }
