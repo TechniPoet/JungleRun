@@ -25,11 +25,13 @@ interface ILoS {
 
 // to represent an empty list of Strings
 class MtLoS implements ILoS {
-    MtLoS(){}
+    MtLoS() {
+        //empty
+    }
   
 // combine all Strings in this list into one
     public String combine() {
-    return "";
+        return "";
     }  
 //returns true because empty list is alphabetical
     public boolean isSorted() {
@@ -50,11 +52,11 @@ class MtLoS implements ILoS {
 }
 
 // to represent a nonempty list of Strings
-class ConsLoS implements ILoS{
+class ConsLoS implements ILoS {
     String first;
     ILoS rest;
   
-    ConsLoS(String first, ILoS rest){
+    ConsLoS(String first, ILoS rest) {
         this.first = first;
         this.rest = rest;  
     }
@@ -99,7 +101,7 @@ class ConsLoS implements ILoS{
     }
 // insert a string to the list in alphabetic order     
     public ILoS insert(String that) {
-        if (this.first.compareTo(that) <= 0){
+        if (this.first.compareTo(that) <= 0) {
             return new ConsLoS(this.first, this.rest.insert(that));
         }
         else {
@@ -108,14 +110,15 @@ class ConsLoS implements ILoS{
     }
 //merge two list into one sorted list
     public ILoS merge(ILoS that) {
-            return this.rest.merge(that.insert(this.first));
-        
+        return this.rest.merge(that.insert(this.first));
     }
 }
 
 // to represent examples for lists of strings
 class ExamplesStrings {
-    ExamplesStrings() {}
+    ExamplesStrings() {
+        //empty
+    }
   
     ILoS mary = new ConsLoS("Mary ",
                     new ConsLoS("had ",
@@ -133,7 +136,9 @@ class ExamplesStrings {
                     new ConsLoS("b", 
                             new ConsLoS("b", 
                                     new ConsLoS("c", 
-                                           new ConsLoS("d", new MtLoS()))))));                      
+                                           new ConsLoS("d",
+                                                   new MtLoS()
+                        ))))));
     boolean testCombine(Tester t) {
         return 
                 t.checkExpect(this.mary.combine(), "Mary had a little lamb.");
@@ -152,6 +157,7 @@ class ExamplesStrings {
     }
     boolean testMerge(Tester t) {
         return
-                t.checkExpect(this.alphabet.merge(this.alphabet1), this.alphabetCom );
+                t.checkExpect(this.alphabet.merge(this.alphabet1),
+                        this.alphabetCom );
     }
 }

@@ -26,7 +26,7 @@ moveMonkey(String ke) moves monkey from key event
 -ILoBlock
 ILoBlock is an interface class that is implemented by MtLoBlock and ConsLoBlock
 
--MtLoBlock
+-MtBlock
 This class is responsible for telling Jungle world that there are no collisions and
 that there are no blocks inside of it.
 
